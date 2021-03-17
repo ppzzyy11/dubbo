@@ -20,6 +20,7 @@ import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.common.logger.Logger;
 import org.apache.dubbo.common.logger.LoggerFactory;
+import org.apache.dubbo.common.reporter.FrameworkStatusReporter;
 import org.apache.dubbo.common.utils.StringUtils;
 import org.apache.dubbo.registry.Registry;
 import org.apache.dubbo.registry.client.migration.model.MigrationRule;
@@ -310,7 +311,7 @@ public class MigrationInvoker<T> implements MigrationClusterInvoker<T> {
             this.currentAvailableInvoker = this.invoker;
             updateConsumerModel(currentAvailableInvoker, serviceDiscoveryInvoker);
         }
-        if (serviceDiscoveryInvoker != null) {
+        if (serviceDiscoveryInvoker != null && !serviceDiscoveryInvoker.isDestroyed()) {
             if (serviceDiscoveryInvoker.getDirectory().isNotificationReceived()) {
                 if (logger.isInfoEnabled()) {
                     logger.info("Destroying instance address invokers, will not listen for address changes until re-subscribed, " + type.getName());
@@ -318,6 +319,8 @@ public class MigrationInvoker<T> implements MigrationClusterInvoker<T> {
                 serviceDiscoveryInvoker.destroy();
             }
         }
+
+        FrameworkStatusReporter.reportConsumptionStatus("{\"type\":\"consumption\", \"data\":{\"status\":0}}");
     }
 
 //    protected synchronized void discardServiceDiscoveryInvokerAddress(ClusterInvoker<T> serviceDiscoveryInvoker) {
@@ -361,7 +364,7 @@ public class MigrationInvoker<T> implements MigrationClusterInvoker<T> {
             this.currentAvailableInvoker = this.serviceDiscoveryInvoker;
             updateConsumerModel(currentAvailableInvoker, invoker);
         }
-        if (invoker != null) {
+        if (invoker != null && !invoker.isDestroyed()) {
             if (invoker.getDirectory().isNotificationReceived()) {
                 if (logger.isInfoEnabled()) {
                     logger.info("Destroying interface address invokers, will not listen for address changes until re-subscribed, " + type.getName());
@@ -369,6 +372,7 @@ public class MigrationInvoker<T> implements MigrationClusterInvoker<T> {
                 invoker.destroy();
             }
         }
+        FrameworkStatusReporter.reportConsumptionStatus("{\"type\":\"consumption\", \"data\":{\"status\":0}}");
     }
 //
 //    protected synchronized void discardInterfaceInvokerAddress(ClusterInvoker<T> invoker) {

@@ -22,6 +22,7 @@ import org.apache.dubbo.common.config.ConfigurationUtils;
 import org.apache.dubbo.common.extension.ExtensionLoader;
 import org.apache.dubbo.common.logger.Logger;
 import org.apache.dubbo.common.logger.LoggerFactory;
+import org.apache.dubbo.common.reporter.FrameworkStatusReporter;
 import org.apache.dubbo.common.serialize.Serialization;
 import org.apache.dubbo.common.status.StatusChecker;
 import org.apache.dubbo.common.threadpool.ThreadPool;
@@ -235,10 +236,12 @@ public class ConfigValidationUtils {
                                 .build();
                         result.add(serviceDiscoveryRegistryURL);
                     }
-                    if (publishInterface) {
+                    if (!publishInstance || publishInterface) {
                         result.add(registryURL);
                     }
                 }
+
+                FrameworkStatusReporter.reportRegistrationStatus("{\"type\":\"registration\", \"data\":{\"status\":0}}");
             } else {
                 result.add(registryURL);
             }
