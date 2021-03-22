@@ -32,10 +32,18 @@ public interface FrameworkStatusReporter {
 
     void report(String type, Object obj);
 
+    /**
+     * This information comes from registration statue and instance runtime info.
+     * @param obj
+     */
     static void reportRegistrationStatus(Object obj) {
         doReport(REGISTRATION_STATUS, obj);
     }
 
+    /**
+     * This information comes from migration.properties and instance's runtime info(ip/app/service/group).
+     * @param obj
+     */
     static void reportConsumptionStatus(Object obj) {
         doReport(ADDRESS_CONSUMPTION_STATUS, obj);
     }

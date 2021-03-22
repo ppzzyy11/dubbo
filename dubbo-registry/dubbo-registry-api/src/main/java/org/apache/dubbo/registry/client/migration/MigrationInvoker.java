@@ -320,7 +320,9 @@ public class MigrationInvoker<T> implements MigrationClusterInvoker<T> {
             }
         }
 
-        FrameworkStatusReporter.reportConsumptionStatus("{\"type\":\"consumption\", \"data\":{\"status\":0}}");
+
+//如何从这里获取运行时信息
+        FrameworkStatusReporter.reportConsumptionStatus("{\"application\":\"application\",\"env\":\"daily\",\"group\":\"group\",\"ip\":\"127.0.0.1\",\"migratedApplications\":[\"hsfops\",\"buy2\"],\"migratedServices\":[\"com.alibab.service1\",\"com.alibab.service2\"],\"service\":\"service\"}");
     }
 
 //    protected synchronized void discardServiceDiscoveryInvokerAddress(ClusterInvoker<T> serviceDiscoveryInvoker) {
@@ -372,7 +374,7 @@ public class MigrationInvoker<T> implements MigrationClusterInvoker<T> {
                 invoker.destroy();
             }
         }
-        FrameworkStatusReporter.reportConsumptionStatus("{\"type\":\"consumption\", \"data\":{\"status\":0}}");
+        FrameworkStatusReporter.reportConsumptionStatus("{\"application\":\"application\",\"env\":\"daily\",\"group\":\"group\",\"ip\":\"127.0.0.1\",\"migratedApplications\":[\"hsfops\",\"buy2\"],\"migratedServices\":[\"com.alibab.service1\",\"com.alibab.service2\"],\"service\":\"service\"}");
     }
 //
 //    protected synchronized void discardInterfaceInvokerAddress(ClusterInvoker<T> invoker) {

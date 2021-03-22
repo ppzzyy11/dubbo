@@ -240,8 +240,8 @@ public class ConfigValidationUtils {
                         result.add(registryURL);
                     }
                 }
-
-                FrameworkStatusReporter.reportRegistrationStatus("{\"type\":\"registration\", \"data\":{\"status\":0}}");
+//如何从这里获取运行时信息
+                FrameworkStatusReporter.reportRegistrationStatus("{\"application\":\"application\",\"applicationAddress\":false,\"env\":\"daily\",\"group\":\"group\",\"ip\":\"127.0.0.1\",\"service\":\"service\",\"serviceAddress\":true}");
             } else {
                 result.add(registryURL);
             }
@@ -252,7 +252,7 @@ public class ConfigValidationUtils {
     private static boolean registryNotExists(URL registryURL, List<URL> registryList, String registryType) {
         return registryList.stream().noneMatch(
                 url -> registryType.equals(url.getProtocol()) && registryURL.getBackupAddress().equals(url.getBackupAddress())
-        );
+                                              );
     }
 
     public static URL loadMonitor(AbstractInterfaceConfig interfaceConfig, URL registryURL) {
